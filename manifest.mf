@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: com.junichi11.netbeans.modules.rainbow.braces
+OpenIDE-Module-Install: com/junichi11/netbeans/modules/rainbow/braces/highlighting/Installer.class
+OpenIDE-Module-Layer: com/junichi11/netbeans/modules/rainbow/braces/resources/layer.xml
+OpenIDE-Module-Localizing-Bundle: com/junichi11/netbeans/modules/rainbow/braces/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0.0
+
