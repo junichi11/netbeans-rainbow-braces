@@ -26,7 +26,18 @@ import org.openide.util.NbPreferences;
  */
 public final class RainbowBracesOptions {
 
-    private final List<String> DEFAULT_COLORS = Arrays.asList(
+    private static final List<String> DEFAULT_COLORS1 = Arrays.asList(
+            "#d03a27", // NOI18N
+            "#4d9e3e", // NOI18N
+            "#1881bf", // NOI18N
+            "#e3317e", // NOI18N
+            "#b0c02f", // NOI18N
+            "#00aebb", // NOI18N
+            "#e69528", // NOI18N
+            "#af3480", // NOI18N
+            "#f2df00" // NOI18N
+    );
+    private static final List<String> DEFAULT_COLORS2 = Arrays.asList(
             "#d03a27", // NOI18N
             "#af3480", // NOI18N
             "#1881bf", // NOI18N
@@ -34,10 +45,10 @@ public final class RainbowBracesOptions {
             "#4d9e3e", // NOI18N
             "#b0c02f", // NOI18N
             "#e69528", // NOI18N
-            "#e3e17e", // NOI18N
+            "#e3317e", // NOI18N
             "#f2df00" // NOI18N
     );
-    private final List<String> DEFAULT_COLORS2 = Arrays.asList(
+    private static final List<String> DEFAULT_COLORS3 = Arrays.asList(
             "#f19db5", // NOI18N
             "#ee858b", // NOI18N
             "#f5a33b", // NOI18N
@@ -126,7 +137,7 @@ public final class RainbowBracesOptions {
         if (number <= 0 || 10 <= number) {
             return DEFAULT_COLOR;
         }
-        return DEFAULT_COLORS.get(number - 1);
+        return DEFAULT_COLORS1.get(number - 1);
     }
 
     private Preferences getPreferences() {
