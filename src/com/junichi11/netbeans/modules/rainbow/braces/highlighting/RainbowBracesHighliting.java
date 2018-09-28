@@ -18,12 +18,15 @@ package com.junichi11.netbeans.modules.rainbow.braces.highlighting;
 import com.junichi11.netbeans.modules.rainbow.braces.options.RainbowBracesOptions;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.lexer.Token;
 import org.netbeans.api.lexer.TokenHierarchy;
 import org.netbeans.api.lexer.TokenId;
@@ -117,6 +120,40 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
         return new HighlightsSequenceImpl(startOffset, endOffset);
     }
 
+    @CheckForNull
+    private TokenSequence<? extends TokenId> getTokenSequence(Document document) {
+        if (!(document instanceof AbstractDocument)) {
+            return null;
+        }
+        AbstractDocument ad = (AbstractDocument) document;
+        ad.readLock();
+        TokenSequence<? extends TokenId> tokenSequence;
+        try {
+            TokenHierarchy<Document> th = TokenHierarchy.get(document);
+            if (th == null) {
+                return null;
+            }
+            tokenSequence = th.tokenSequence();
+        } finally {
+            ad.readUnlock();
+        }
+        if (tokenSequence == null) {
+            return null;
+        }
+        tokenSequence.move(0);
+        if (!tokenSequence.moveNext()) {
+            return null;
+        }
+
+        while (tokenSequence.embedded() != null) {
+            tokenSequence = tokenSequence.embedded();
+            tokenSequence.move(0);
+            tokenSequence.moveNext();
+        }
+        return tokenSequence;
+    }
+
+    //~ Inner class
     private class HighlightsSequenceImpl implements HighlightsSequence {
 
         private final int startOffset;
@@ -270,38 +307,6 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
             }
         }
 
-    }
-
-    private TokenSequence<? extends TokenId> getTokenSequence(Document document) {
-        if (!(document instanceof AbstractDocument)) {
-            return null;
-        }
-        AbstractDocument ad = (AbstractDocument) document;
-        ad.readLock();
-        TokenSequence<? extends TokenId> tokenSequence;
-        try {
-            TokenHierarchy<Document> th = TokenHierarchy.get(document);
-            if (th == null) {
-                return null;
-            }
-            tokenSequence = th.tokenSequence();
-        } finally {
-            ad.readUnlock();
-        }
-        if (tokenSequence == null) {
-            return null;
-        }
-        tokenSequence.move(0);
-        if (!tokenSequence.moveNext()) {
-            return null;
-        }
-
-        while (tokenSequence.embedded() != null) {
-            tokenSequence = tokenSequence.embedded();
-            tokenSequence.move(0);
-            tokenSequence.moveNext();
-        }
-        return tokenSequence;
     }
 
 }
