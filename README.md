@@ -2,11 +2,17 @@
 
 Rainbow Parenthesis/Brackets/Braces for NetBeans
 
+![netbeans-rainbow-braces](./images/netbeans-rainbow-braces.png)
+
 ### Options
 
 Tools > Options > Miscellaneous > Rainbow
 
 If you would like to use this plugin for specific mime-types, please modify `Regex for mime-types`.
+
+Colors are customizable.
+
+![netbeans-rainbow-braces-options](./images/netbeans-rainbow-braces-options.png)
 
 ### Downloads
 
