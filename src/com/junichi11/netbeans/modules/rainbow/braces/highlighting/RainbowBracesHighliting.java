@@ -79,6 +79,12 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
     public static final String LAYER_TYPE_ID = "com.junichi11.modules.rainbow.braces.highlighting.RainbowBracesHighlighting"; // NOI18N
     private static Pattern MIME_TYPE_PATTERN;
     private static AttributeSet[] ATTRIBUTE_SETS;
+    private static final List<String> SKIP_CATEGORIES = Arrays.asList(
+            "string", // NOI18N
+            "character", // NOI18N
+            "commentline", // NOI18N
+            "comment" // NOI18N
+    );
     private final Document document;
     private final CharSequence documentText;
     private final String mimeType;
@@ -224,10 +230,7 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
                     Token<? extends TokenId> token = ts.token();
                     if (token != null) {
                         String primaryCategory = token.id().primaryCategory();
-                        if ("string".equals(primaryCategory) // NOI18N
-                                || "character".equals(primaryCategory) // NOI18N
-                                || "commentline".equals(primaryCategory) // NOI18N
-                                || "comment".equals(primaryCategory)) { // NOI18N
+                        if (SKIP_CATEGORIES.contains(primaryCategory)) {
                             return ts.offset() + token.length() - 1;
                         }
                     }
