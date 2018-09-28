@@ -144,7 +144,7 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
             }
             for (int i = highlightsEndOffset; i < endOffset; i++) {
                 char c = documentText.charAt(i);
-                // skip string or comment
+                // skip string and comment
                 int skipedPosition = skipToken(i);
                 if (skipedPosition != -1) {
                     i = skipedPosition;
