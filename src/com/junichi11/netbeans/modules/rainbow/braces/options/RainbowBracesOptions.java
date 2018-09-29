@@ -15,12 +15,12 @@
  */
 package com.junichi11.netbeans.modules.rainbow.braces.options;
 
+import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLOR;
+import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLORS;
+import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLORS1;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;
 
@@ -30,40 +30,6 @@ import org.openide.util.NbPreferences;
  */
 public final class RainbowBracesOptions {
 
-    private static final Map<String, List<String>> DEFAULT_COLORS = new HashMap<>();
-    private static final List<String> DEFAULT_COLORS1 = Arrays.asList(
-            "#d03a27", // NOI18N
-            "#4d9e3e", // NOI18N
-            "#1881bf", // NOI18N
-            "#e3317e", // NOI18N
-            "#b0c02f", // NOI18N
-            "#00aebb", // NOI18N
-            "#e69528", // NOI18N
-            "#af3480", // NOI18N
-            "#f2df00" // NOI18N
-    );
-    private static final List<String> DEFAULT_COLORS2 = Arrays.asList(
-            "#d02742", // NOI18N
-            "#7f34af", // NOI18N
-            "#1881bf", // NOI18N
-            "#00aebb", // NOI18N
-            "#4d9e3e", // NOI18N
-            "#b0c02f", // NOI18N
-            "#e69528", // NOI18N
-            "#e3317e", // NOI18N
-            "#f2df00" // NOI18N
-    );
-    private static final List<String> DEFAULT_COLORS3 = Arrays.asList(
-            "#e79df1", // NOI18N
-            "#ee858b", // NOI18N
-            "#f5a33b", // NOI18N
-            "#fedc5e", // NOI18N
-            "#b5d681", // NOI18N
-            "#6fb16b", // NOI18N
-            "#86b6e2", // NOI18N
-            "#6f94cd", // NOI18N
-            "#ce93bf" // NOI18N
-    );
     private static final String DEFAULT_MIME_TYPE_REGEX = "^text/(x-)?(java|php5|javascript|json|css|less|sass|scss)$"; // NOI18N
     private static final String MIME_TYPE_REGEX = "rainbow.braces.mimetype.regex"; // NOI18N
     private static final String ENABLED = "rainbow.braces.enabled"; // NOI18N
@@ -72,14 +38,8 @@ public final class RainbowBracesOptions {
     private static final String BRACES = "rainbow.braces.braces"; // NOI18N
     private static final String COLOR = "rainbow.braces.color.%s"; // NOI18N
     private static final String COLOR_CODE = "rainbow.braces.color.code.%s"; // NOI18N
-    private static final String DEFAULT_COLOR = "#000000"; // NOI18N
-    private static final RainbowBracesOptions INSTANCE = new RainbowBracesOptions();
 
-    static {
-        DEFAULT_COLORS.put("Default 1", DEFAULT_COLORS1); // NOI18N
-        DEFAULT_COLORS.put("Default 2", DEFAULT_COLORS2); // NOI18N
-        DEFAULT_COLORS.put("Default 3", DEFAULT_COLORS3); // NOI18N
-    }
+    private static final RainbowBracesOptions INSTANCE = new RainbowBracesOptions();
 
     private RainbowBracesOptions() {
     }
