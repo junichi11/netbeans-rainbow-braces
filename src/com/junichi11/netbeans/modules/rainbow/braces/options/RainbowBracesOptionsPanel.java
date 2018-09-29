@@ -52,15 +52,14 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
 
     private void init() {
         errorLabel.setForeground(UIManager.getColor("nb.errorForeground")); // NOI18N
+        resetColorsBarLabel.setText(" "); // NOI18N
         setErrorMessage(null);
-        // add listener
+        // add listeners
         mimeTypesTextField.getDocument().addDocumentListener(new DefaultDocumentListener());
         List<String> defaultColorNames = RainbowBracesOptions.getDefaultColorNames();
         defaultColorNames.forEach(color -> resetColorsComboBox.addItem(color));
-        resetColorsComboBox.addItemListener(e -> {
-            setColorBar();
-        });
-        resetColorsBarLabel.setText(" "); // NOI18N
+        resetColorsComboBox.addItemListener(e -> setColorBar());
+
         setColorBar();
     }
 
@@ -360,7 +359,6 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         options.setColorCode(8, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
         selectedColor = colorComboBox9.getSelectedColor();
         options.setColorCode(9, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-
     }
 
     boolean valid() {
@@ -379,7 +377,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     }
 
     private void setErrorMessage(String message) {
-        if (message == null) {
+        if (message == null || message.isEmpty()) {
             errorMessage = null;
             errorLabel.setText("");
             return;

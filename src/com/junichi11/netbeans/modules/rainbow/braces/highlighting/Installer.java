@@ -36,7 +36,6 @@ public class Installer extends ModuleInstall {
             if (evt.getKey().startsWith("rainbow.braces.color.")) { // NOI18N
                 RainbowBracesHighliting.setColors();
             }
-
         });
     }
 
