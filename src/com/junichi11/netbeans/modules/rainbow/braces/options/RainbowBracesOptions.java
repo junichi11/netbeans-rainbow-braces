@@ -15,8 +15,12 @@
  */
 package com.junichi11.netbeans.modules.rainbow.braces.options;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;
 
@@ -26,6 +30,7 @@ import org.openide.util.NbPreferences;
  */
 public final class RainbowBracesOptions {
 
+    private static final Map<String, List<String>> DEFAULT_COLORS = new HashMap<>();
     private static final List<String> DEFAULT_COLORS1 = Arrays.asList(
             "#d03a27", // NOI18N
             "#4d9e3e", // NOI18N
@@ -38,8 +43,8 @@ public final class RainbowBracesOptions {
             "#f2df00" // NOI18N
     );
     private static final List<String> DEFAULT_COLORS2 = Arrays.asList(
-            "#d03a27", // NOI18N
-            "#af3480", // NOI18N
+            "#d02742", // NOI18N
+            "#7f34af", // NOI18N
             "#1881bf", // NOI18N
             "#00aebb", // NOI18N
             "#4d9e3e", // NOI18N
@@ -49,7 +54,7 @@ public final class RainbowBracesOptions {
             "#f2df00" // NOI18N
     );
     private static final List<String> DEFAULT_COLORS3 = Arrays.asList(
-            "#f19db5", // NOI18N
+            "#e79df1", // NOI18N
             "#ee858b", // NOI18N
             "#f5a33b", // NOI18N
             "#fedc5e", // NOI18N
@@ -69,6 +74,12 @@ public final class RainbowBracesOptions {
     private static final String COLOR_CODE = "rainbow.braces.color.code.%s"; // NOI18N
     private static final String DEFAULT_COLOR = "#000000"; // NOI18N
     private static final RainbowBracesOptions INSTANCE = new RainbowBracesOptions();
+
+    static {
+        DEFAULT_COLORS.put("Default 1", DEFAULT_COLORS1); // NOI18N
+        DEFAULT_COLORS.put("Default 2", DEFAULT_COLORS2); // NOI18N
+        DEFAULT_COLORS.put("Default 3", DEFAULT_COLORS3); // NOI18N
+    }
 
     private RainbowBracesOptions() {
     }
@@ -133,8 +144,19 @@ public final class RainbowBracesOptions {
         getPreferences().put(String.format(COLOR_CODE, number), color);
     }
 
+    public String getDefaultColorCode(String name, int number) {
+        List<String> defaultColors = DEFAULT_COLORS.get(name);
+        if (defaultColors == null || defaultColors.isEmpty()) {
+            defaultColors = DEFAULT_COLORS1;
+        }
+        if (number <= 0 || defaultColors.size() < number) {
+            return DEFAULT_COLOR;
+        }
+        return defaultColors.get(number - 1);
+    }
+
     public String getDefaultColorCode(int number) {
-        if (number <= 0 || 10 <= number) {
+        if (number <= 0 || DEFAULT_COLORS1.size() < number) {
             return DEFAULT_COLOR;
         }
         return DEFAULT_COLORS1.get(number - 1);
@@ -142,5 +164,19 @@ public final class RainbowBracesOptions {
 
     private Preferences getPreferences() {
         return NbPreferences.forModule(RainbowBracesOptions.class);
+    }
+
+    public static List<String> getDefaultColorNames() {
+        ArrayList names = new ArrayList(DEFAULT_COLORS.keySet());
+        Collections.sort(names);
+        return names;
+    }
+
+    public static List<String> getDefaultColors(String name) {
+        List<String> defaultColors = DEFAULT_COLORS.get(name);
+        if (defaultColors == null) {
+            return Collections.emptyList();
+        }
+        return defaultColors;
     }
 }

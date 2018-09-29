@@ -16,11 +16,18 @@
 package com.junichi11.netbeans.modules.rainbow.braces.options;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import javax.swing.Icon;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.openide.*;
+import org.openide.util.NbBundle;
 
 /**
  *
@@ -48,6 +55,22 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         setErrorMessage(null);
         // add listener
         mimeTypesTextField.getDocument().addDocumentListener(new DefaultDocumentListener());
+        List<String> defaultColorNames = RainbowBracesOptions.getDefaultColorNames();
+        defaultColorNames.forEach(color -> resetColorsComboBox.addItem(color));
+        resetColorsComboBox.addItemListener(e -> {
+            setColorBar();
+        });
+        resetColorsBarLabel.setText(" "); // NOI18N
+        setColorBar();
+    }
+
+    private void setColorBar() {
+        resetColorsBarLabel.setIcon(
+                new ColorBarIcon(
+                        RainbowBracesOptions.getDefaultColors((String) resetColorsComboBox.getSelectedItem()),
+                        resetColorsBarLabel.getPreferredSize().height
+                )
+        );
     }
 
     /**
@@ -85,6 +108,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         bracesCheckBox = new javax.swing.JCheckBox();
         errorLabel = new javax.swing.JLabel();
         resetColorsButton = new javax.swing.JButton();
+        resetColorsComboBox = new javax.swing.JComboBox<>();
+        resetColorsLabel = new javax.swing.JLabel();
+        resetColorsBarLabel = new javax.swing.JLabel();
 
         org.openide.awt.Mnemonics.setLocalizedText(mimeTypesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.mimeTypesLabel.text")); // NOI18N
 
@@ -125,6 +151,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(resetColorsLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.resetColorsLabel.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(resetColorsBarLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.resetColorsBarLabel.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,20 +166,30 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(colorCheckBox4)
-                            .addComponent(colorCheckBox1)
-                            .addComponent(colorCheckBox7))
+                        .addComponent(parenthesisCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(colorComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(colorComboBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(colorComboBox7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bracketsCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bracesCheckBox))
+                    .addComponent(enabledCheckBox)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(colorCheckBox5)
-                            .addComponent(colorCheckBox2)
-                            .addComponent(colorCheckBox8))
+                            .addComponent(errorLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(colorCheckBox4)
+                                    .addComponent(colorCheckBox1)
+                                    .addComponent(colorCheckBox7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(colorComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(colorComboBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(colorComboBox7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(colorCheckBox5)
+                                    .addComponent(colorCheckBox2)
+                                    .addComponent(colorCheckBox8))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(colorComboBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -166,14 +206,13 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                             .addComponent(colorComboBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(colorComboBox9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(parenthesisCheckBox)
+                        .addComponent(resetColorsLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bracketsCheckBox)
+                        .addComponent(resetColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bracesCheckBox))
-                    .addComponent(enabledCheckBox)
-                    .addComponent(errorLabel)
-                    .addComponent(resetColorsButton))
+                        .addComponent(resetColorsBarLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resetColorsButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -216,23 +255,43 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                     .addComponent(colorCheckBox9)
                     .addComponent(colorComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetColorsButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetColorsButton)
+                    .addComponent(resetColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetColorsLabel)
+                    .addComponent(resetColorsBarLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(errorLabel))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    @NbBundle.Messages({
+        "# {0} - name",
+        "RainbowBracesOptionsPanel.confirmation.message.reset.colors=Would you really like rest colors with {0}? You cannot undo them.",
+        "RainbowBracesOptionsPanel.confirmation.message.title=Reset colors"
+    })
     private void resetColorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetColorsButtonActionPerformed
+        // show confirmation dialog
+        String name = (String) resetColorsComboBox.getSelectedItem();
+        NotifyDescriptor.Confirmation confirmation = new NotifyDescriptor.Confirmation(
+                Bundle.RainbowBracesOptionsPanel_confirmation_message_reset_colors(name),
+                Bundle.RainbowBracesOptionsPanel_confirmation_message_title(),
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.QUESTION_MESSAGE
+        );
+        if (DialogDisplayer.getDefault().notify(confirmation) != NotifyDescriptor.OK_OPTION) {
+            return;
+        }
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
-        colorComboBox1.setSelectedColor(Color.decode(options.getDefaultColorCode(1)));
-        colorComboBox2.setSelectedColor(Color.decode(options.getDefaultColorCode(2)));
-        colorComboBox3.setSelectedColor(Color.decode(options.getDefaultColorCode(3)));
-        colorComboBox4.setSelectedColor(Color.decode(options.getDefaultColorCode(4)));
-        colorComboBox5.setSelectedColor(Color.decode(options.getDefaultColorCode(5)));
-        colorComboBox6.setSelectedColor(Color.decode(options.getDefaultColorCode(6)));
-        colorComboBox7.setSelectedColor(Color.decode(options.getDefaultColorCode(7)));
-        colorComboBox8.setSelectedColor(Color.decode(options.getDefaultColorCode(8)));
-        colorComboBox9.setSelectedColor(Color.decode(options.getDefaultColorCode(9)));
+        colorComboBox1.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 1)));
+        colorComboBox2.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 2)));
+        colorComboBox3.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 3)));
+        colorComboBox4.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 4)));
+        colorComboBox5.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 5)));
+        colorComboBox6.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 6)));
+        colorComboBox7.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 7)));
+        colorComboBox8.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 8)));
+        colorComboBox9.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 9)));
     }//GEN-LAST:event_resetColorsButtonActionPerformed
 
     void load() {
@@ -355,9 +414,13 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel mimeTypesLabel;
     private javax.swing.JTextField mimeTypesTextField;
     private javax.swing.JCheckBox parenthesisCheckBox;
+    private javax.swing.JLabel resetColorsBarLabel;
     private javax.swing.JButton resetColorsButton;
+    private javax.swing.JComboBox<String> resetColorsComboBox;
+    private javax.swing.JLabel resetColorsLabel;
     // End of variables declaration//GEN-END:variables
 
+    //~ Inner classes
     private class DefaultDocumentListener implements DocumentListener {
 
         public DefaultDocumentListener() {
@@ -382,5 +445,40 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             fireChange();
         }
 
+    }
+
+    private static class ColorBarIcon implements Icon {
+
+        private final List<String> colors;
+        private final int width;
+        private final int height;
+
+        public ColorBarIcon(List<String> colors, int size) {
+            this.colors = colors;
+            this.height = size;
+            this.width = size * colors.size();
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            int i = 0;
+            for (String color : colors) {
+                g2d.setColor(Color.decode(color));
+                g2d.fillRect(x + i, y, height, height);
+                i += height;
+            }
+            g2d.dispose();
+        }
+
+        @Override
+        public int getIconWidth() {
+            return width;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return height;
+        }
     }
 }

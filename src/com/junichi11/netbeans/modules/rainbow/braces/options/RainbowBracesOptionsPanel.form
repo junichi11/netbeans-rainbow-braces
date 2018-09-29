@@ -23,23 +23,36 @@
           </Group>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="colorCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="colorCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="colorCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="parenthesisCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="colorComboBox1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="colorComboBox4" alignment="0" max="32767" attributes="0"/>
-                          <Component id="colorComboBox7" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="bracketsCheckBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="bracesCheckBox" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="enabledCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="colorCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="colorCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="colorCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="errorLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="colorCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="colorComboBox1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="colorComboBox4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="colorComboBox7" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="colorCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -61,15 +74,14 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="parenthesisCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="resetColorsLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bracketsCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="resetColorsComboBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bracesCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="resetColorsBarLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="resetColorsButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="enabledCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="errorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="resetColorsButton" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -122,7 +134,12 @@
                   <Component id="colorComboBox9" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="resetColorsButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="resetColorsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetColorsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetColorsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetColorsBarLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="errorLabel" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -269,6 +286,30 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetColorsButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="resetColorsComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="resetColorsLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.resetColorsLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="resetColorsBarLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.resetColorsBarLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
