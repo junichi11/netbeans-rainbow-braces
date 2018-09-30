@@ -74,7 +74,7 @@ public final class DefaultColors {
     }
 
     static List<String> getDefaultColorNames() {
-        ArrayList names = new ArrayList(DEFAULT_COLORS.keySet());
+        ArrayList<String> names = new ArrayList<>(DEFAULT_COLORS.keySet());
         Collections.sort(names);
         return names;
     }
