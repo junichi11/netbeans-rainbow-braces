@@ -56,7 +56,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         setErrorMessage(null);
         // add listeners
         mimeTypesTextField.getDocument().addDocumentListener(new DefaultDocumentListener());
-        List<String> defaultColorNames = RainbowBracesOptions.getDefaultColorNames();
+        List<String> defaultColorNames = DefaultColors.getDefaultColorNames();
         defaultColorNames.forEach(color -> resetColorsComboBox.addItem(color));
         resetColorsComboBox.addItemListener(e -> setColorBar());
 
@@ -66,7 +66,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     private void setColorBar() {
         resetColorsBarLabel.setIcon(
                 new ColorBarIcon(
-                        RainbowBracesOptions.getDefaultColors((String) resetColorsComboBox.getSelectedItem()),
+                        DefaultColors.getDefaultColors((String) resetColorsComboBox.getSelectedItem()),
                         resetColorsBarLabel.getPreferredSize().height
                 )
         );

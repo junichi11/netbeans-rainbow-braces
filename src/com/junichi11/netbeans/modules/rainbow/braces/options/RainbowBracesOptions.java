@@ -18,8 +18,6 @@ package com.junichi11.netbeans.modules.rainbow.braces.options;
 import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLOR;
 import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLORS;
 import static com.junichi11.netbeans.modules.rainbow.braces.options.DefaultColors.DEFAULT_COLORS1;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;
@@ -126,17 +124,4 @@ public final class RainbowBracesOptions {
         return NbPreferences.forModule(RainbowBracesOptions.class);
     }
 
-    public static List<String> getDefaultColorNames() {
-        ArrayList names = new ArrayList(DEFAULT_COLORS.keySet());
-        Collections.sort(names);
-        return names;
-    }
-
-    public static List<String> getDefaultColors(String name) {
-        List<String> defaultColors = DEFAULT_COLORS.get(name);
-        if (defaultColors == null) {
-            return Collections.emptyList();
-        }
-        return defaultColors;
-    }
 }

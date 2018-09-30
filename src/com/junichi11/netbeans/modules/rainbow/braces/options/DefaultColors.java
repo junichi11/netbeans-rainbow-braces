@@ -15,7 +15,9 @@
  */
 package com.junichi11.netbeans.modules.rainbow.braces.options;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +71,20 @@ public final class DefaultColors {
         DEFAULT_COLORS.put("Default 1", DEFAULT_COLORS1); // NOI18N
         DEFAULT_COLORS.put("Default 2", DEFAULT_COLORS2); // NOI18N
         DEFAULT_COLORS.put("Default 3", DEFAULT_COLORS3); // NOI18N
+    }
+
+    static List<String> getDefaultColorNames() {
+        ArrayList names = new ArrayList(DEFAULT_COLORS.keySet());
+        Collections.sort(names);
+        return names;
+    }
+
+    static List<String> getDefaultColors(String name) {
+        List<String> defaultColors = DEFAULT_COLORS.get(name);
+        if (defaultColors == null) {
+            return Collections.emptyList();
+        }
+        return defaultColors;
     }
 
 }
