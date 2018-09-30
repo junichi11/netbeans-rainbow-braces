@@ -1,6 +1,6 @@
 ## NetBeans Rainbow Braces Plugin
 
-Rainbow Parenthesis/Brackets/Braces for NetBeans
+Rainbow Parentheses/Brackets/Braces for NetBeans
 
 ![netbeans-rainbow-braces](./images/netbeans-rainbow-braces.png)
 

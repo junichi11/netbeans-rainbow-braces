@@ -31,7 +31,7 @@ public final class RainbowBracesOptions {
     private static final String DEFAULT_MIME_TYPE_REGEX = "^text/(x-)?(java|php5|javascript|json|css|less|sass|scss)$"; // NOI18N
     private static final String MIME_TYPE_REGEX = "rainbow.braces.mimetype.regex"; // NOI18N
     private static final String ENABLED = "rainbow.braces.enabled"; // NOI18N
-    private static final String PARENTHESIS = "rainbow.braces.parenthesis"; // NOI18N
+    private static final String PARENTHESES = "rainbow.braces.parentheses"; // NOI18N
     private static final String BRACKETS = "rainbow.braces.brackets"; // NOI18N
     private static final String BRACES = "rainbow.braces.braces"; // NOI18N
     private static final String COLOR = "rainbow.braces.color.%s"; // NOI18N
@@ -62,12 +62,12 @@ public final class RainbowBracesOptions {
         getPreferences().put(MIME_TYPE_REGEX, regex);
     }
 
-    public boolean isParenthesis() {
-        return getPreferences().getBoolean(PARENTHESIS, true);
+    public boolean isParentheses() {
+        return getPreferences().getBoolean(PARENTHESES, true);
     }
 
-    public void setParenthesis(boolean isParenthesis) {
-        getPreferences().putBoolean(PARENTHESIS, isParenthesis);
+    public void setParentheses(boolean isParentheses) {
+        getPreferences().putBoolean(PARENTHESES, isParentheses);
     }
 
     public boolean isBrackets() {

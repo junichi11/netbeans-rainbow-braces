@@ -102,7 +102,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         colorCheckBox8 = new javax.swing.JCheckBox();
         colorCheckBox9 = new javax.swing.JCheckBox();
         enabledCheckBox = new javax.swing.JCheckBox();
-        parenthesisCheckBox = new javax.swing.JCheckBox();
+        parenthesesCheckBox = new javax.swing.JCheckBox();
         bracketsCheckBox = new javax.swing.JCheckBox();
         bracesCheckBox = new javax.swing.JCheckBox();
         errorLabel = new javax.swing.JLabel();
@@ -135,7 +135,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(enabledCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.enabledCheckBox.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(parenthesisCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.parenthesisCheckBox.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(parenthesesCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.parenthesesCheckBox.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(bracketsCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.bracketsCheckBox.text")); // NOI18N
 
@@ -165,7 +165,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(parenthesisCheckBox)
+                        .addComponent(parenthesesCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bracketsCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -224,7 +224,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                     .addComponent(mimeTypesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(parenthesisCheckBox)
+                    .addComponent(parenthesesCheckBox)
                     .addComponent(bracketsCheckBox)
                     .addComponent(bracesCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -297,7 +297,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         enabledCheckBox.setSelected(options.isEnabled());
         mimeTypesTextField.setText(options.getMimeTypeRegex());
-        parenthesisCheckBox.setSelected(options.isParenthesis());
+        parenthesesCheckBox.setSelected(options.isParentheses());
         bracketsCheckBox.setSelected(options.isBrackets());
         bracesCheckBox.setSelected(options.isBraces());
 
@@ -327,7 +327,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         options.setEnabled(enabledCheckBox.isSelected());
         options.setMimeTypeRegex(mimeTypesTextField.getText());
-        options.setParenthesis(parenthesisCheckBox.isSelected());
+        options.setParentheses(parenthesesCheckBox.isSelected());
         options.setBrackets(bracketsCheckBox.isSelected());
         options.setBraces(bracesCheckBox.isSelected());
 
@@ -411,7 +411,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel mimeTypesLabel;
     private javax.swing.JTextField mimeTypesTextField;
-    private javax.swing.JCheckBox parenthesisCheckBox;
+    private javax.swing.JCheckBox parenthesesCheckBox;
     private javax.swing.JLabel resetColorsBarLabel;
     private javax.swing.JButton resetColorsButton;
     private javax.swing.JComboBox<String> resetColorsComboBox;

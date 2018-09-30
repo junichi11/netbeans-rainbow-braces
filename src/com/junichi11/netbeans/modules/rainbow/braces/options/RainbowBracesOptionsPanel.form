@@ -24,7 +24,7 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="parenthesisCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="parenthesesCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bracketsCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -98,7 +98,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="parenthesisCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="parenthesesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bracketsCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bracesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -249,12 +249,15 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="parenthesisCheckBox">
+    <Component class="javax.swing.JCheckBox" name="parenthesesCheckBox">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.parenthesisCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.parenthesesCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="RainbowBracesOptionsPanel_parenthesesCheckBox"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="bracketsCheckBox">
       <Properties>
