@@ -63,6 +63,17 @@ public final class DefaultColors {
             "#6f94cd", // NOI18N
             "#ce93bf" // NOI18N
     );
+    static final List<String> PSYCHEDELIC_COLORS = Arrays.asList(
+            "#b7007c", // NOI18N
+            "#009b85", // NOI18N
+            "#382284", // NOI18N
+            "#c4c829", // NOI18N
+            "#95007e", // NOI18N
+            "#e2c80f", // NOI18N
+            "#009dc6", // NOI18N
+            "#b80e3b", // NOI18N
+            "#0178bc" // NOI18N
+    );
 
     private DefaultColors() {
     }
@@ -71,6 +82,7 @@ public final class DefaultColors {
         DEFAULT_COLORS.put("Default 1", DEFAULT_COLORS1); // NOI18N
         DEFAULT_COLORS.put("Default 2", DEFAULT_COLORS2); // NOI18N
         DEFAULT_COLORS.put("Default 3", DEFAULT_COLORS3); // NOI18N
+        DEFAULT_COLORS.put("Psychedelic", PSYCHEDELIC_COLORS); // NOI18N
     }
 
     static List<String> getDefaultColorNames() {
