@@ -29,7 +29,10 @@ import org.openide.util.Lookup;
         keywords = "#AdvancedOption_Keywords_RainbowBraces",
         keywordsCategory = "Advanced/RainbowBraces"
 )
-@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_RainbowBraces=Rainbow", "AdvancedOption_Keywords_RainbowBraces=rainbow, parenthes, brackets, braces"})
+@org.openide.util.NbBundle.Messages({
+    "AdvancedOption_DisplayName_RainbowBraces=Rainbow",
+    "AdvancedOption_Keywords_RainbowBraces=rainbow, parenthes, brackets, braces"
+})
 public final class RainbowBracesOptionsPanelController extends OptionsPanelController {
 
     private RainbowBracesOptionsPanel panel;
