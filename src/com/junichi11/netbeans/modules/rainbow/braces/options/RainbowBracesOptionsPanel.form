@@ -82,6 +82,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="resetColorsButton" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="skipCommentsCheckBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="skipStringsCheckBox" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -96,13 +101,18 @@
                   <Component id="mimeTypesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="mimeTypesTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="parenthesesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bracketsCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bracesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="skipCommentsCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="skipStringsCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="colorCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -275,9 +285,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="errorLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.errorLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
+        <Property name="text" type="java.lang.String" value="ERROR" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="resetColorsButton">
@@ -311,6 +319,20 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.resetColorsBarLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="skipCommentsCheckBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.skipCommentsCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="skipStringsCheckBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.skipStringsCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
