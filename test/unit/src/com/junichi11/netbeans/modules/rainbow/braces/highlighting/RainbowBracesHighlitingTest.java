@@ -15,6 +15,7 @@
  */
 package com.junichi11.netbeans.modules.rainbow.braces.highlighting;
 
+import com.junichi11.netbeans.modules.rainbow.braces.options.RainbowBracesOptions;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -127,7 +128,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
     }
 
     @Test
-    public void testHighlightsWithComment() throws BadLocationException {
+    public void testHighlightsSkipComment() throws BadLocationException {
         // ignore comment
         String contents = ""
                 + "public class Test {\n" // 20
@@ -146,7 +147,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
     }
 
     @Test
-    public void testHighlightsWithString() throws BadLocationException {
+    public void testHighlightsSkipString() throws BadLocationException {
         // ignore string
         String contents = ""
                 + "public class Test {\n" // 20
@@ -189,4 +190,130 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
         assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + (23 * 6) + 4);
         assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + (23 * 6) + 5);
     }
+
+    @Test
+    public void testHighlightsWithComment() throws BadLocationException {
+        String contents = ""
+                + "public class Test {\n" // 20
+                + "    // {}\n" // 10
+                + "    /* () [] */\n" // 16
+                + "    public void test() {\n" // 25
+                + "        new String[]{};\n" // 24
+                + "    }\n" // 6
+                + "}\n";
+        doc.insertString(0, contents, null);
+        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        RainbowBracesOptions.getInstance().setCommentSkipped(false);
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 7);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 8);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 8);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 9);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 7);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 8);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 8);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 9);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 10);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 11);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 11);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 12);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 20);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 21);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 21);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 22);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 23);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 24);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 18);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 19);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 19);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 20);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 20);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 21);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 21);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 22);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 24 + 4);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 24 + 5);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 25 + 24 + 6 + 0);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 10 + 16 + 25 + 24 + 6 + 1);
+        RainbowBracesOptions.getInstance().setCommentSkipped(true);
+    }
+
+    @Test
+    public void testHighlightsWithString() throws BadLocationException {
+        String contents = ""
+                + "public class Test {\n" // 20
+                + "    public void test() {\n" //25
+                + "        String string = \"{} () []\"\n" // 35
+                + "    }\n" // 6
+                + "}\n";
+        doc.insertString(0, contents, null);
+        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        RainbowBracesOptions.getInstance().setStringSkipped(false);
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 25);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 26);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 26);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 27);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 28);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 29);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 29);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 30);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 31);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 32);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 32);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 33);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 35 + 4);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 35 + 5);
+
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 20 + 25 + 35 + 6 + 0);
+        assertEquals(highlightsSequence.getEndOffset(), 20 + 25 + 35 + 6 + 1);
+        RainbowBracesOptions.getInstance().setStringSkipped(true);
+    }
+
 }

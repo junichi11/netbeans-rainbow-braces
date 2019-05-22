@@ -79,11 +79,15 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
     public static final String LAYER_TYPE_ID = "com.junichi11.modules.rainbow.braces.highlighting.RainbowBracesHighlighting"; // NOI18N
     private static Pattern MIME_TYPE_PATTERN;
     private static AttributeSet[] ATTRIBUTE_SETS;
-    private static final List<String> SKIP_CATEGORIES = Arrays.asList(
-            "string", // NOI18N
-            "character", // NOI18N
+    private static final List<String> SKIP_DEFAULT_CATEGORIES = Arrays.asList(
+            "character" // NOI18N
+    );
+    private static final List<String> SKIP_COMMENT_CATEGORIES = Arrays.asList(
             "commentline", // NOI18N
             "comment" // NOI18N
+    );
+    private static final List<String> SKIP_STRING_CATEGORIES = Arrays.asList(
+            "string" // NOI18N
     );
     private final Document document;
     private final CharSequence documentText;
@@ -230,13 +234,33 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
                     Token<? extends TokenId> token = ts.token();
                     if (token != null) {
                         String primaryCategory = token.id().primaryCategory();
-                        if (SKIP_CATEGORIES.contains(primaryCategory)) {
+                        if (isCategorySkipped(primaryCategory)) {
                             return ts.offset() + token.length() - 1;
                         }
                     }
                 }
             }
             return -1;
+        }
+
+        private boolean isCategorySkipped(String primaryCategory) {
+            return isSkippedDefaultCategory(primaryCategory)
+                    || isCommentSkipped(primaryCategory)
+                    || isStringSkipped(primaryCategory);
+        }
+
+        private boolean isSkippedDefaultCategory(String primaryCategory) {
+            return SKIP_DEFAULT_CATEGORIES.contains(primaryCategory);
+        }
+
+        private boolean isCommentSkipped(String primaryCategory) {
+            return RainbowBracesOptions.getInstance().isCommentSkipped()
+                    && SKIP_COMMENT_CATEGORIES.contains(primaryCategory);
+        }
+
+        private boolean isStringSkipped(String primaryCategory) {
+            return RainbowBracesOptions.getInstance().isStringSkipped()
+                    && SKIP_STRING_CATEGORIES.contains(primaryCategory);
         }
 
         @Override

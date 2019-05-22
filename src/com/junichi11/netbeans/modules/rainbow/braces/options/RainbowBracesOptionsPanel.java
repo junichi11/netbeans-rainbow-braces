@@ -110,6 +110,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         resetColorsComboBox = new javax.swing.JComboBox<>();
         resetColorsLabel = new javax.swing.JLabel();
         resetColorsBarLabel = new javax.swing.JLabel();
+        skipCommentsCheckBox = new javax.swing.JCheckBox();
+        skipStringsCheckBox = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(mimeTypesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.mimeTypesLabel.text")); // NOI18N
 
@@ -141,7 +143,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(bracesCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.bracesCheckBox.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(errorLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.errorLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(errorLabel, "ERROR"); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(resetColorsButton, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.resetColorsButton.text")); // NOI18N
         resetColorsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +155,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(resetColorsLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.resetColorsLabel.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(resetColorsBarLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.resetColorsBarLabel.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(skipCommentsCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.skipCommentsCheckBox.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(skipStringsCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.skipStringsCheckBox.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -211,7 +217,11 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(resetColorsBarLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetColorsButton)))
+                        .addComponent(resetColorsButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(skipCommentsCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(skipStringsCheckBox)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -227,6 +237,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                     .addComponent(parenthesesCheckBox)
                     .addComponent(bracketsCheckBox)
                     .addComponent(bracesCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(skipCommentsCheckBox)
+                    .addComponent(skipStringsCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -301,6 +315,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         bracketsCheckBox.setSelected(options.isBrackets());
         bracesCheckBox.setSelected(options.isBraces());
 
+        // skip
+        skipCommentsCheckBox.setSelected(options.isCommentSkipped());
+        skipStringsCheckBox.setSelected(options.isStringSkipped());
+
         // colors
         colorCheckBox1.setSelected(options.isColorEnabled(1));
         colorCheckBox2.setSelected(options.isColorEnabled(2));
@@ -330,6 +348,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         options.setParentheses(parenthesesCheckBox.isSelected());
         options.setBrackets(bracketsCheckBox.isSelected());
         options.setBraces(bracesCheckBox.isSelected());
+
+        // skip
+        options.setCommentSkipped(skipCommentsCheckBox.isSelected());
+        options.setStringSkipped(skipStringsCheckBox.isSelected());
 
         options.setEnabledColor(1, colorCheckBox1.isSelected());
         options.setEnabledColor(2, colorCheckBox2.isSelected());
@@ -416,6 +438,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JButton resetColorsButton;
     private javax.swing.JComboBox<String> resetColorsComboBox;
     private javax.swing.JLabel resetColorsLabel;
+    private javax.swing.JCheckBox skipCommentsCheckBox;
+    private javax.swing.JCheckBox skipStringsCheckBox;
     // End of variables declaration//GEN-END:variables
 
     //~ Inner classes
