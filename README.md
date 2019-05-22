@@ -12,6 +12,13 @@ If you would like to use this plugin for specific mime-types, please modify `Reg
 
 Colors are customizable.
 
+#### Skip options
+
+If you would like to show colorized braces in comments and strings, please uncheck the below options.
+
+- Skip comments (Checked by default)
+- Skip strings (Checked by default)
+
 ![netbeans-rainbow-braces-options](./images/netbeans-rainbow-braces-options.png)
 
 ### Downloads
