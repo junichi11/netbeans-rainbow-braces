@@ -19,14 +19,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.Icon;
+import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.openide.*;
+import org.openide.awt.ColorComboBox;
 import org.openide.util.NbBundle;
 
 /**
@@ -40,6 +44,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
 
     private final RainbowBracesOptionsPanelController controller;
     private String errorMessage;
+    private List<JCheckBox> colorCheckBoxes = Collections.emptyList();
+    private List<ColorComboBox> colorComboBoxes = Collections.emptyList();
 
     /**
      * Creates new form RainbowBracesColorsPanel
@@ -61,6 +67,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         resetColorsComboBox.addItemListener(e -> setColorBar());
 
         setColorBar();
+        colorCheckBoxes = getColorCheckBoxes();
+        colorComboBoxes = getColorComboBoxes();
     }
 
     private void setColorBar() {
@@ -280,7 +288,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
 
     @NbBundle.Messages({
         "# {0} - name",
-        "RainbowBracesOptionsPanel.confirmation.message.reset.colors=Would you really like rest colors with {0}? You cannot undo them.",
+        "RainbowBracesOptionsPanel.confirmation.message.reset.colors=Would you really like to rest colors with {0}? You cannot undo them.",
         "RainbowBracesOptionsPanel.confirmation.message.title=Reset colors"
     })
     private void resetColorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetColorsButtonActionPerformed
@@ -296,15 +304,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             return;
         }
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
-        colorComboBox1.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 1)));
-        colorComboBox2.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 2)));
-        colorComboBox3.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 3)));
-        colorComboBox4.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 4)));
-        colorComboBox5.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 5)));
-        colorComboBox6.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 6)));
-        colorComboBox7.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 7)));
-        colorComboBox8.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 8)));
-        colorComboBox9.setSelectedColor(Color.decode(options.getDefaultColorCode(name, 9)));
+        for (int i = 0; i < colorComboBoxes.size(); i++) {
+            ColorComboBox colorComboBox = colorComboBoxes.get(i);
+            colorComboBox.setSelectedColor(Color.decode(options.getDefaultColorCode(name, i + 1)));
+        }
     }//GEN-LAST:event_resetColorsButtonActionPerformed
 
     void load() {
@@ -320,25 +323,15 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         skipStringsCheckBox.setSelected(options.isStringSkipped());
 
         // colors
-        colorCheckBox1.setSelected(options.isColorEnabled(1));
-        colorCheckBox2.setSelected(options.isColorEnabled(2));
-        colorCheckBox3.setSelected(options.isColorEnabled(3));
-        colorCheckBox4.setSelected(options.isColorEnabled(4));
-        colorCheckBox5.setSelected(options.isColorEnabled(5));
-        colorCheckBox6.setSelected(options.isColorEnabled(6));
-        colorCheckBox7.setSelected(options.isColorEnabled(7));
-        colorCheckBox8.setSelected(options.isColorEnabled(8));
-        colorCheckBox9.setSelected(options.isColorEnabled(9));
+        for (int i = 0; i < colorCheckBoxes.size(); i++) {
+            JCheckBox colorCheckBox = colorCheckBoxes.get(i);
+            colorCheckBox.setSelected(options.isColorEnabled(i + 1));
+        }
 
-        colorComboBox1.setSelectedColor(Color.decode(options.getColorCode(1)));
-        colorComboBox2.setSelectedColor(Color.decode(options.getColorCode(2)));
-        colorComboBox3.setSelectedColor(Color.decode(options.getColorCode(3)));
-        colorComboBox4.setSelectedColor(Color.decode(options.getColorCode(4)));
-        colorComboBox5.setSelectedColor(Color.decode(options.getColorCode(5)));
-        colorComboBox6.setSelectedColor(Color.decode(options.getColorCode(6)));
-        colorComboBox7.setSelectedColor(Color.decode(options.getColorCode(7)));
-        colorComboBox8.setSelectedColor(Color.decode(options.getColorCode(8)));
-        colorComboBox9.setSelectedColor(Color.decode(options.getColorCode(9)));
+        for (int i = 0; i < colorComboBoxes.size(); i++) {
+            ColorComboBox colorComboBox = colorComboBoxes.get(i);
+            colorComboBox.setSelectedColor(Color.decode(options.getColorCode(i + 1)));
+        }
     }
 
     void store() {
@@ -353,34 +346,45 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         options.setCommentSkipped(skipCommentsCheckBox.isSelected());
         options.setStringSkipped(skipStringsCheckBox.isSelected());
 
-        options.setEnabledColor(1, colorCheckBox1.isSelected());
-        options.setEnabledColor(2, colorCheckBox2.isSelected());
-        options.setEnabledColor(3, colorCheckBox3.isSelected());
-        options.setEnabledColor(4, colorCheckBox4.isSelected());
-        options.setEnabledColor(5, colorCheckBox5.isSelected());
-        options.setEnabledColor(6, colorCheckBox6.isSelected());
-        options.setEnabledColor(7, colorCheckBox7.isSelected());
-        options.setEnabledColor(8, colorCheckBox8.isSelected());
-        options.setEnabledColor(9, colorCheckBox9.isSelected());
+        for (int i = 0; i < colorCheckBoxes.size(); i++) {
+            options.setEnabledColor(i + 1, colorCheckBoxes.get(i).isSelected());
+        }
 
-        Color selectedColor = colorComboBox1.getSelectedColor();
-        options.setColorCode(1, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox2.getSelectedColor();
-        options.setColorCode(2, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox3.getSelectedColor();
-        options.setColorCode(3, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox4.getSelectedColor();
-        options.setColorCode(4, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox5.getSelectedColor();
-        options.setColorCode(5, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox6.getSelectedColor();
-        options.setColorCode(6, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox7.getSelectedColor();
-        options.setColorCode(7, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox8.getSelectedColor();
-        options.setColorCode(8, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
-        selectedColor = colorComboBox9.getSelectedColor();
-        options.setColorCode(9, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
+        for (int i = 0; i < colorComboBoxes.size(); i++) {
+            ColorComboBox colorComboBox = colorComboBoxes.get(i);
+            Color selectedColor = colorComboBox.getSelectedColor();
+            options.setColorCode(i + 1, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
+        }
+    }
+
+    private List<JCheckBox> getColorCheckBoxes() {
+        // MUST NOT change the order
+        return Arrays.asList(
+                colorCheckBox1,
+                colorCheckBox2,
+                colorCheckBox3,
+                colorCheckBox4,
+                colorCheckBox5,
+                colorCheckBox6,
+                colorCheckBox7,
+                colorCheckBox8,
+                colorCheckBox9
+        );
+    }
+
+    private List<ColorComboBox> getColorComboBoxes() {
+        // MUST NOT change the order
+        return Arrays.asList(
+                colorComboBox1,
+                colorComboBox2,
+                colorComboBox3,
+                colorComboBox4,
+                colorComboBox5,
+                colorComboBox6,
+                colorComboBox7,
+                colorComboBox8,
+                colorComboBox9
+        );
     }
 
     boolean valid() {
