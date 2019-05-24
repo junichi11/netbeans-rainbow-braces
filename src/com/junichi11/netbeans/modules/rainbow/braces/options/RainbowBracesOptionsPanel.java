@@ -314,9 +314,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         enabledCheckBox.setSelected(options.isEnabled());
         mimeTypesTextField.setText(options.getMimeTypeRegex());
-        parenthesesCheckBox.setSelected(options.isParentheses());
-        bracketsCheckBox.setSelected(options.isBrackets());
-        bracesCheckBox.setSelected(options.isBraces());
+        parenthesesCheckBox.setSelected(options.areParenthesesEnabled());
+        bracketsCheckBox.setSelected(options.areBracketsEnabled());
+        bracesCheckBox.setSelected(options.areBracesEnabled());
 
         // skip
         skipCommentsCheckBox.setSelected(options.isCommentSkipped());
@@ -338,9 +338,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         options.setEnabled(enabledCheckBox.isSelected());
         options.setMimeTypeRegex(mimeTypesTextField.getText());
-        options.setParentheses(parenthesesCheckBox.isSelected());
-        options.setBrackets(bracketsCheckBox.isSelected());
-        options.setBraces(bracesCheckBox.isSelected());
+        options.setParenthesesEnabled(parenthesesCheckBox.isSelected());
+        options.setBracketsEnabled(bracketsCheckBox.isSelected());
+        options.setBracesEnabled(bracesCheckBox.isSelected());
 
         // skip
         options.setCommentSkipped(skipCommentsCheckBox.isSelected());

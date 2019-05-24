@@ -215,13 +215,13 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
             switch (state) {
                 case ParenthesisOpen:
                 case ParenthesisClose:
-                    return RainbowBracesOptions.getInstance().isParentheses();
+                    return RainbowBracesOptions.getInstance().areParenthesesEnabled();
                 case BracketOpen:
                 case BracketClose:
-                    return RainbowBracesOptions.getInstance().isBrackets();
+                    return RainbowBracesOptions.getInstance().areBracketsEnabled();
                 case BraceOpen:
                 case BraceClose:
-                    return RainbowBracesOptions.getInstance().isBraces();
+                    return RainbowBracesOptions.getInstance().areBracesEnabled();
                 default:
                     return true;
             }
