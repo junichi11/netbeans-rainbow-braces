@@ -89,6 +89,8 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
     private static final List<String> SKIP_STRING_CATEGORIES = Arrays.asList(
             "string" // NOI18N
     );
+    private static final int MAX_COLOR_SIZE = 9;
+
     private final Document document;
     private final CharSequence documentText;
     private final String mimeType;
@@ -110,8 +112,8 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
 
     static void setColors() {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
-        ArrayList<AttributeSet> attSets = new ArrayList<>(9);
-        for (int i = 1; i < 10; i++) {
+        ArrayList<AttributeSet> attSets = new ArrayList<>(MAX_COLOR_SIZE);
+        for (int i = 1; i <= MAX_COLOR_SIZE; i++) {
             if (options.isColorEnabled(i)) {
                 SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
                 StyleConstants.setForeground(simpleAttributeSet, Color.decode(options.getColorCode(i)));
