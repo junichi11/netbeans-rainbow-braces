@@ -29,10 +29,10 @@ public class RainbowBracesLayerFactory implements HighlightsLayerFactory {
     public HighlightsLayer[] createLayers(Context context) {
         return new HighlightsLayer[]{
             HighlightsLayer.create(
-                RainbowBracesHighliting.LAYER_TYPE_ID,
+                RainbowBracesHighlighting.LAYER_TYPE_ID,
                 ZOrder.TOP_RACK.forPosition(1000),
                 true,
-                new RainbowBracesHighliting(context.getDocument())
+                new RainbowBracesHighlighting(context.getDocument())
             )
         };
     }

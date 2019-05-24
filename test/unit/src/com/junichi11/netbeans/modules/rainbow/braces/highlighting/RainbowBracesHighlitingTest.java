@@ -36,7 +36,7 @@ import org.netbeans.spi.editor.highlighting.HighlightsSequence;
  */
 public class RainbowBracesHighlitingTest extends NbTestCase {
 
-    private RainbowBracesHighliting rainbowBracesHighliting;
+    private RainbowBracesHighlighting rainbowBracesHighlighting;
     private Document doc;
 
     public RainbowBracesHighlitingTest(String name) {
@@ -58,7 +58,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
         doc = new DefaultStyledDocument();
         doc.putProperty(Language.class, JavaTokenId.language());
         doc.putProperty("mimeType", "text/java");
-        rainbowBracesHighliting = new RainbowBracesHighliting(doc);
+        rainbowBracesHighlighting = new RainbowBracesHighlighting(doc);
     }
 
     @After
@@ -75,7 +75,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         assertTrue(highlightsSequence.moveNext());
         assertEquals(highlightsSequence.getStartOffset(), 18);
         assertEquals(highlightsSequence.getEndOffset(), 19);
@@ -139,7 +139,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
         assertEquals(highlightsSequence.getStartOffset(), 20 + 10 + 16 + 20);
@@ -156,7 +156,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
@@ -181,7 +181,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
@@ -202,7 +202,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         RainbowBracesOptions.getInstance().setCommentSkipped(false);
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());
@@ -276,7 +276,7 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
                 + "    }\n" // 6
                 + "}\n";
         doc.insertString(0, contents, null);
-        HighlightsSequence highlightsSequence = rainbowBracesHighliting.getHighlights(0, doc.getLength());
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(0, doc.getLength());
         RainbowBracesOptions.getInstance().setStringSkipped(false);
         assertTrue(highlightsSequence.moveNext());
         assertTrue(highlightsSequence.moveNext());

@@ -39,7 +39,7 @@ import org.netbeans.spi.editor.highlighting.support.AbstractHighlightsContainer;
  *
  * @author junichi11
  */
-public class RainbowBracesHighliting extends AbstractHighlightsContainer {
+public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
     private enum State {
         ParenthesisOpen,
@@ -100,7 +100,7 @@ public class RainbowBracesHighliting extends AbstractHighlightsContainer {
         setMimeTypeRegex();
     }
 
-    RainbowBracesHighliting(Document document) {
+    RainbowBracesHighlighting(Document document) {
         this.document = document;
         this.documentText = DocumentUtilities.getText(document);
         this.mimeType = DocumentUtilities.getMimeType(document);
