@@ -25,8 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
- - NetBeans Version [e.g. 10.0]
- - Plugin Version [e.g. 0.1.0]
+ - NetBeans Version: [e.g. 10.0]
+ - Plugin Version: [e.g. 0.1.0]
 
 **Additional context**
 Add any other context about the problem here.

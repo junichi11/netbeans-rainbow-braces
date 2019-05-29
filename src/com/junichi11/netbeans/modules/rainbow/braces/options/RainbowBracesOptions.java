@@ -64,27 +64,27 @@ public final class RainbowBracesOptions {
         getPreferences().put(MIME_TYPE_REGEX, regex);
     }
 
-    public boolean isParentheses() {
+    public boolean areParenthesesEnabled() {
         return getPreferences().getBoolean(PARENTHESES, true);
     }
 
-    public void setParentheses(boolean isParentheses) {
+    public void setParenthesesEnabled(boolean isParentheses) {
         getPreferences().putBoolean(PARENTHESES, isParentheses);
     }
 
-    public boolean isBrackets() {
+    public boolean areBracketsEnabled() {
         return getPreferences().getBoolean(BRACKETS, true);
     }
 
-    public void setBrackets(boolean isBrackets) {
+    public void setBracketsEnabled(boolean isBrackets) {
         getPreferences().putBoolean(BRACKETS, isBrackets);
     }
 
-    public boolean isBraces() {
+    public boolean areBracesEnabled() {
         return getPreferences().getBoolean(BRACES, true);
     }
 
-    public void setBraces(boolean isBraces) {
+    public void setBracesEnabled(boolean isBraces) {
         getPreferences().putBoolean(BRACES, isBraces);
     }
 
