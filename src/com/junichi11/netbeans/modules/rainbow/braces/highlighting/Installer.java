@@ -29,12 +29,16 @@ public class Installer extends ModuleInstall {
         // add listener
         Preferences preferences = NbPreferences.forModule(RainbowBracesOptions.class);
         preferences.addPreferenceChangeListener(evt -> {
+            if (evt.getKey() == null) {
+                return;
+            }
+
             if (evt.getKey().equals("rainbow.braces.mimetype.regex")) { // NOI18N
                 RainbowBracesHighlighting.setMimeTypeRegex();
             }
 
             if (evt.getKey().startsWith("rainbow.braces.color.")) { // NOI18N
-                RainbowBracesHighlighting.setColors();
+                HighlightingUtils.setColors();
             }
         });
     }

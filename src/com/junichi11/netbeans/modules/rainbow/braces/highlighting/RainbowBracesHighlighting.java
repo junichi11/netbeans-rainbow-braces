@@ -16,19 +16,12 @@
 package com.junichi11.netbeans.modules.rainbow.braces.highlighting;
 
 import com.junichi11.netbeans.modules.rainbow.braces.options.RainbowBracesOptions;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.regex.Pattern;
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.lexer.Token;
-import org.netbeans.api.lexer.TokenHierarchy;
 import org.netbeans.api.lexer.TokenId;
 import org.netbeans.api.lexer.TokenSequence;
 import org.netbeans.lib.editor.util.swing.DocumentUtilities;
@@ -41,86 +34,22 @@ import org.netbeans.spi.editor.highlighting.support.AbstractHighlightsContainer;
  */
 public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
-    private enum State {
-        ParenthesisOpen,
-        ParenthesisClose,
-        BracketOpen,
-        BracketClose,
-        BraceOpen,
-        BraceClose,
-        None;
-
-        public boolean isOpen() {
-            return this == ParenthesisOpen
-                    || this == BracketOpen
-                    || this == BraceOpen;
-        }
-
-        public static State valueOfChar(char c) {
-            switch (c) {
-                case '{':
-                    return BraceOpen;
-                case '}':
-                    return BraceClose;
-                case '(':
-                    return ParenthesisOpen;
-                case ')':
-                    return ParenthesisClose;
-                case '[':
-                    return BracketOpen;
-                case ']':
-                    return BracketClose;
-                default:
-                    return None;
-            }
-        }
-    }
-
     public static final String LAYER_TYPE_ID = "com.junichi11.modules.rainbow.braces.highlighting.RainbowBracesHighlighting"; // NOI18N
     private static Pattern MIME_TYPE_PATTERN;
-    private static AttributeSet[] ATTRIBUTE_SETS;
-    private static final List<String> SKIP_DEFAULT_CATEGORIES = Arrays.asList(
-            "character" // NOI18N
-    );
-    private static final List<String> SKIP_COMMENT_CATEGORIES = Arrays.asList(
-            "commentline", // NOI18N
-            "comment" // NOI18N
-    );
-    private static final List<String> SKIP_STRING_CATEGORIES = Arrays.asList(
-            "string" // NOI18N
-    );
-    private static final int MAX_COLOR_SIZE = 9;
-
     private final Document document;
-    private final CharSequence documentText;
     private final String mimeType;
 
     static {
-        setColors();
         setMimeTypeRegex();
     }
 
     RainbowBracesHighlighting(Document document) {
         this.document = document;
-        this.documentText = DocumentUtilities.getText(document);
         this.mimeType = DocumentUtilities.getMimeType(document);
     }
 
     static void setMimeTypeRegex() {
         MIME_TYPE_PATTERN = Pattern.compile(RainbowBracesOptions.getInstance().getMimeTypeRegex());
-    }
-
-    static void setColors() {
-        RainbowBracesOptions options = RainbowBracesOptions.getInstance();
-        ArrayList<AttributeSet> attSets = new ArrayList<>(MAX_COLOR_SIZE);
-        for (int i = 1; i <= MAX_COLOR_SIZE; i++) {
-            if (options.isColorEnabled(i)) {
-                SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
-                StyleConstants.setForeground(simpleAttributeSet, Color.decode(options.getColorCode(i)));
-                attSets.add(simpleAttributeSet);
-            }
-        }
-        ATTRIBUTE_SETS = attSets.toArray(new AttributeSet[attSets.size()]);
     }
 
     @Override
@@ -129,61 +58,45 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                 || !MIME_TYPE_PATTERN.matcher(mimeType).matches()) {
             return HighlightsSequence.EMPTY;
         }
-        return new HighlightsSequenceImpl(startOffset, endOffset);
+        return BracesHighlightsSequenceFactory.create(startOffset, endOffset, document);
     }
 
-    @CheckForNull
-    private TokenSequence<? extends TokenId> getTokenSequence(Document document) {
-        if (!(document instanceof AbstractDocument)) {
-            return null;
+    private static final class BracesHighlightsSequenceFactory {
+
+        private BracesHighlightsSequenceFactory() {
         }
-        AbstractDocument ad = (AbstractDocument) document;
-        ad.readLock();
-        TokenSequence<? extends TokenId> tokenSequence;
-        try {
-            TokenHierarchy<Document> th = TokenHierarchy.get(document);
-            if (th == null) {
-                return null;
+
+        public static final HighlightsSequence create(int startOffset, int endOffset, Document document) {
+            int endDelta = document.getLength() - endOffset;
+            if (startOffset <= endDelta) {
+                return new HighlightsSequenceForward(startOffset, endOffset, document);
             }
-            tokenSequence = th.tokenSequence();
-        } finally {
-            ad.readUnlock();
+            HighlightsSequenceBackward highlightsSequenceBackward = new HighlightsSequenceBackward(startOffset, endOffset, document);
+            highlightsSequenceBackward.parse();
+            return highlightsSequenceBackward;
         }
-        if (tokenSequence == null) {
-            return null;
-        }
-        tokenSequence.move(0);
-        if (!tokenSequence.moveNext()) {
-            return null;
-        }
-
-        while (tokenSequence.embedded() != null) {
-            tokenSequence = tokenSequence.embedded();
-            tokenSequence.move(0);
-            tokenSequence.moveNext();
-        }
-        return tokenSequence;
     }
 
-    //~ Inner class
-    private class HighlightsSequenceImpl implements HighlightsSequence {
+    static class HighlightsSequenceForward implements HighlightsSequence {
 
         private final int startOffset;
         private final int endOffset;
+        private final CharSequence documentText;
         private final TokenSequence<? extends TokenId> ts;
         private int highlightsStartOffset;
         private int highlightsEndOffset;
         private int bracesBalance = 0;
         private int parenthesisBalance = 0;
         private int bracketsBalance = 0;
-        private State state = State.None;
+        private BracesState state = BracesState.None;
 
-        private HighlightsSequenceImpl(int startOffset, int endOffset) {
+        private HighlightsSequenceForward(int startOffset, int endOffset, Document document) {
             this.startOffset = startOffset;
             this.endOffset = endOffset;
             this.highlightsStartOffset = 0;
             this.highlightsEndOffset = 0;
-            this.ts = getTokenSequence(document);
+            this.documentText = DocumentUtilities.getText(document);
+            this.ts = HighlightingUtils.getTokenSequence(document);
         }
 
         @Override
@@ -199,34 +112,18 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                     i = skipedPosition;
                     continue;
                 }
-                state = State.valueOfChar(c);
-                if (!isEnabledState()) {
+                state = BracesState.valueOfChar(c);
+                if (!HighlightingUtils.isEnabledState(state)) {
                     continue;
                 }
                 setBalance(state);
                 setHighlightsOffsets(state, i);
-                if (state != State.None
+                if (state != BracesState.None
                         && startOffset <= highlightsStartOffset) {
                     return true;
                 }
             }
             return false;
-        }
-
-        private boolean isEnabledState() {
-            switch (state) {
-                case ParenthesisOpen: // no break
-                case ParenthesisClose:
-                    return RainbowBracesOptions.getInstance().areParenthesesEnabled();
-                case BracketOpen: // no break
-                case BracketClose:
-                    return RainbowBracesOptions.getInstance().areBracketsEnabled();
-                case BraceOpen: // no break
-                case BraceClose:
-                    return RainbowBracesOptions.getInstance().areBracesEnabled();
-                default:
-                    return true;
-            }
         }
 
         private int skipToken(int offset) {
@@ -236,33 +133,13 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                     Token<? extends TokenId> token = ts.token();
                     if (token != null) {
                         String primaryCategory = token.id().primaryCategory();
-                        if (isCategorySkipped(primaryCategory)) {
+                        if (HighlightingUtils.isCategorySkipped(primaryCategory)) {
                             return ts.offset() + token.length() - 1;
                         }
                     }
                 }
             }
             return -1;
-        }
-
-        private boolean isCategorySkipped(String primaryCategory) {
-            return isSkippedDefaultCategory(primaryCategory)
-                    || isCommentSkipped(primaryCategory)
-                    || isStringSkipped(primaryCategory);
-        }
-
-        private boolean isSkippedDefaultCategory(String primaryCategory) {
-            return SKIP_DEFAULT_CATEGORIES.contains(primaryCategory);
-        }
-
-        private boolean isCommentSkipped(String primaryCategory) {
-            return RainbowBracesOptions.getInstance().isCommentSkipped()
-                    && SKIP_COMMENT_CATEGORIES.contains(primaryCategory);
-        }
-
-        private boolean isStringSkipped(String primaryCategory) {
-            return RainbowBracesOptions.getInstance().isStringSkipped()
-                    && SKIP_STRING_CATEGORIES.contains(primaryCategory);
         }
 
         @Override
@@ -277,25 +154,25 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
         @Override
         public AttributeSet getAttributes() {
-            assert state != State.None;
+            assert state != BracesState.None;
             int position = getBalance(state);
             if (state.isOpen()) {
                 position--;
             }
             if (position < 0) {
-                return ATTRIBUTE_SETS[0];
+                return HighlightingUtils.ATTRIBUTE_SETS[0];
             }
-            return ATTRIBUTE_SETS[position % ATTRIBUTE_SETS.length];
+            return HighlightingUtils.ATTRIBUTE_SETS[position % HighlightingUtils.ATTRIBUTE_SETS.length];
         }
 
-        private void setHighlightsOffsets(State state, int startOffset) {
-            if (state != State.None) {
+        private void setHighlightsOffsets(BracesState state, int startOffset) {
+            if (state != BracesState.None) {
                 highlightsStartOffset = startOffset;
                 highlightsEndOffset = startOffset + 1;
             }
         }
 
-        private int getBalance(State state) {
+        private int getBalance(BracesState state) {
             switch (state) {
                 case BraceOpen: // no break
                 case BraceClose:
@@ -311,7 +188,7 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
             }
         }
 
-        private void setBalance(State state) {
+        private void setBalance(BracesState state) {
             switch (state) {
                 case BraceOpen:
                     bracesBalance++;
@@ -330,6 +207,149 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                     break;
                 case ParenthesisClose:
                     parenthesisBalance--;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    static class HighlightsSequenceBackward implements HighlightsSequence {
+
+        private final int startOffset;
+        private final int endOffset;
+        private final CharSequence documentText;
+        private final TokenSequence<? extends TokenId> ts;
+        private int highlightsStartOffset;
+        private int highlightsEndOffset;
+        private int bracesBalance = 0;
+        private int parenthesisBalance = 0;
+        private int bracketsBalance = 0;
+        private BracesState state = BracesState.None;
+        private final Deque<AttributeOffset> stack = new ArrayDeque<>();
+        private AttributeSet attributeSet;
+
+        private HighlightsSequenceBackward(int startOffset, int endOffset, Document document) {
+            this.startOffset = startOffset;
+            this.endOffset = endOffset;
+            this.documentText = DocumentUtilities.getText(document);
+            this.ts = HighlightingUtils.getTokenSequence(document);
+        }
+
+        void parse() {
+            int length = documentText.length();
+            for (int i = --length; i >= startOffset; i--) {
+                char c = documentText.charAt(i);
+                // skip string and comment
+                int skipedPosition = skipToken(i);
+                if (skipedPosition != -1) {
+                    i = skipedPosition;
+                    continue;
+                }
+                state = BracesState.valueOfChar(c);
+                if (!HighlightingUtils.isEnabledState(state)) {
+                    continue;
+                }
+                setBalance(state);
+                if (state != BracesState.None
+                        && endOffset >= i + 1) {
+                    stack.addFirst(new AttributeOffset(i, i + 1, getAttributeSet()));
+                }
+            }
+        }
+
+        @Override
+        public boolean moveNext() {
+            if (stack.isEmpty()) {
+                return false;
+            }
+            AttributeOffset attributeOffset = stack.pop();
+            highlightsStartOffset = attributeOffset.getStartOffset();
+            highlightsEndOffset = attributeOffset.getEndOffset();
+            attributeSet = attributeOffset.getAttribute();
+            assert attributeSet != null;
+            return true;
+        }
+
+        private int skipToken(int offset) {
+            if (ts != null) {
+                ts.move(offset);
+                if (ts.moveNext()) {
+                    Token<? extends TokenId> token = ts.token();
+                    if (token != null) {
+                        String primaryCategory = token.id().primaryCategory();
+                        if (HighlightingUtils.isCategorySkipped(primaryCategory)) {
+                            return ts.offset();
+                        }
+                    }
+                }
+            }
+            return -1;
+        }
+
+        private AttributeSet getAttributeSet() {
+            assert state != BracesState.None;
+            int position = getBalance(state);
+            if (state.isClose()) {
+                position--;
+            }
+            if (position < 0) {
+                return HighlightingUtils.ATTRIBUTE_SETS[0];
+            }
+            return HighlightingUtils.ATTRIBUTE_SETS[position % HighlightingUtils.ATTRIBUTE_SETS.length];
+        }
+
+        @Override
+        public int getStartOffset() {
+            return highlightsStartOffset;
+        }
+
+        @Override
+        public int getEndOffset() {
+            return highlightsEndOffset;
+        }
+
+        @Override
+        public AttributeSet getAttributes() {
+            return attributeSet;
+        }
+
+        private int getBalance(BracesState state) {
+            switch (state) {
+                case BraceOpen: // no break
+                case BraceClose:
+                    return bracesBalance;
+                case BracketOpen: // no break
+                case BracketClose:
+                    return bracketsBalance;
+                case ParenthesisOpen: // no braek
+                case ParenthesisClose:
+                    return parenthesisBalance;
+                default:
+                    return 0;
+            }
+        }
+
+        private void setBalance(BracesState state) {
+            switch (state) {
+                case BraceOpen:
+                    bracesBalance--;
+                    break;
+                case BraceClose:
+                    bracesBalance++;
+                    break;
+                case BracketOpen:
+                    bracketsBalance--;
+                    break;
+                case BracketClose:
+                    bracketsBalance++;
+                    break;
+                case ParenthesisOpen:
+                    parenthesisBalance--;
+                    break;
+                case ParenthesisClose:
+                    parenthesisBalance++;
                     break;
                 default:
                     break;
