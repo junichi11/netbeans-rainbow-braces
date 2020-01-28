@@ -19,6 +19,15 @@ If you would like to show colorized braces in comments and strings, please unche
 - Skip comments (Checked by default)
 - Skip strings (Checked by default)
 
+#### Max number of lines
+
+Braces are not colorized if lines of a file greater than this number.
+
+
+#### Check only parentheses/brackets/braces of a visible area (Unchecked by default)
+
+Don't check all braces from the top/end of the file. So, colors may be changed when you scroll the editor. But performance is better.
+
 ![netbeans-rainbow-braces-options](./images/netbeans-rainbow-braces-options.png)
 
 ### Downloads
