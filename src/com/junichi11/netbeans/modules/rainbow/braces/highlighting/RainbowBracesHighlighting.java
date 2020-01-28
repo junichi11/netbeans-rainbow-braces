@@ -38,6 +38,7 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
     private static volatile Pattern MIME_TYPE_PATTERN;
     private static volatile int MAX_LINES;
     private static volatile boolean IS_ENABLED;
+    private static volatile boolean IS_ONLY_VISIBLE_AREA;
     private final Document document;
     private final String mimeType;
 
@@ -45,6 +46,7 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         setEnabled();
         setMimeTypeRegex();
         setMaxLines();
+        setOnlyVisibleArea();
     }
 
     RainbowBracesHighlighting(Document document) {
@@ -54,6 +56,10 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
     static void setEnabled() {
         IS_ENABLED = RainbowBracesOptions.getInstance().isEnabled();
+    }
+
+    static void setOnlyVisibleArea() {
+        IS_ONLY_VISIBLE_AREA = RainbowBracesOptions.getInstance().isOnlyVisibleArea();
     }
 
     static void setMimeTypeRegex() {
@@ -83,9 +89,12 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         }
 
         public static final HighlightsSequence create(int startOffset, int endOffset, Document document) {
+            if (IS_ONLY_VISIBLE_AREA) {
+                return new HighlightsSequenceForward(startOffset, endOffset, document, true);
+            }
             int endDelta = document.getLength() - endOffset;
             if (startOffset <= endDelta) {
-                return new HighlightsSequenceForward(startOffset, endOffset, document);
+                return new HighlightsSequenceForward(startOffset, endOffset, document, false);
             }
             HighlightsSequenceBackward highlightsSequenceBackward = new HighlightsSequenceBackward(startOffset, endOffset, document);
             highlightsSequenceBackward.parse();
@@ -106,11 +115,11 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         private int bracketsBalance = 0;
         private BracesState state = BracesState.None;
 
-        private HighlightsSequenceForward(int startOffset, int endOffset, Document document) {
+        private HighlightsSequenceForward(int startOffset, int endOffset, Document document, boolean isOnlyVisibleArea) {
             this.startOffset = startOffset;
             this.endOffset = endOffset;
-            this.highlightsStartOffset = 0;
-            this.highlightsEndOffset = 0;
+            this.highlightsStartOffset = isOnlyVisibleArea ? startOffset : 0;
+            this.highlightsEndOffset =  isOnlyVisibleArea ? startOffset : 0;
             this.documentText = DocumentUtilities.getText(document);
             this.ts = HighlightingUtils.getTokenSequence(document);
         }

@@ -96,6 +96,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="resetColorsButton" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="checkOnlyVisibleAreaCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -164,6 +165,8 @@
                   <Component id="maxNumberOfLinesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="maxNumberOfLinesSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="checkOnlyVisibleAreaCheckBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="errorLabel" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -364,6 +367,16 @@
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="3000" minimum="0" numberType="java.lang.Integer" stepSize="100" type="number"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="checkOnlyVisibleAreaCheckBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.checkOnlyVisibleAreaCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/junichi11/netbeans/modules/rainbow/braces/options/Bundle.properties" key="RainbowBracesOptionsPanel.checkOnlyVisibleAreaCheckBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

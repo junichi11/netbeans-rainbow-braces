@@ -123,6 +123,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         skipStringsCheckBox = new javax.swing.JCheckBox();
         maxNumberOfLinesLabel = new javax.swing.JLabel();
         maxNumberOfLinesSpinner = new javax.swing.JSpinner();
+        checkOnlyVisibleAreaCheckBox = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(mimeTypesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.mimeTypesLabel.text")); // NOI18N
 
@@ -175,6 +176,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(maxNumberOfLinesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.maxNumberOfLinesLabel.text")); // NOI18N
 
         maxNumberOfLinesSpinner.setModel(new javax.swing.SpinnerNumberModel(3000, 0, null, 100));
+
+        org.openide.awt.Mnemonics.setLocalizedText(checkOnlyVisibleAreaCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.checkOnlyVisibleAreaCheckBox.text")); // NOI18N
+        checkOnlyVisibleAreaCheckBox.setToolTipText(org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.checkOnlyVisibleAreaCheckBox.toolTipText")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -243,7 +247,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(resetColorsBarLabel)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetColorsButton)))
+                        .addComponent(resetColorsButton))
+                    .addComponent(checkOnlyVisibleAreaCheckBox))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -299,6 +304,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maxNumberOfLinesLabel)
                     .addComponent(maxNumberOfLinesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkOnlyVisibleAreaCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(errorLabel))
         );
@@ -331,6 +338,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     void load() {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         enabledCheckBox.setSelected(options.isEnabled());
+        checkOnlyVisibleAreaCheckBox.setSelected(options.isOnlyVisibleArea());
         mimeTypesTextField.setText(options.getMimeTypeRegex());
         parenthesesCheckBox.setSelected(options.areParenthesesEnabled());
         bracketsCheckBox.setSelected(options.areBracketsEnabled());
@@ -358,6 +366,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     void store() {
         RainbowBracesOptions options = RainbowBracesOptions.getInstance();
         options.setEnabled(enabledCheckBox.isSelected());
+        options.setOnlyVisibleArea(checkOnlyVisibleAreaCheckBox.isSelected());
         options.setMimeTypeRegex(mimeTypesTextField.getText());
         options.setParenthesesEnabled(parenthesesCheckBox.isSelected());
         options.setBracketsEnabled(bracketsCheckBox.isSelected());
@@ -439,6 +448,7 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox bracesCheckBox;
     private javax.swing.JCheckBox bracketsCheckBox;
+    private javax.swing.JCheckBox checkOnlyVisibleAreaCheckBox;
     private javax.swing.JCheckBox colorCheckBox1;
     private javax.swing.JCheckBox colorCheckBox2;
     private javax.swing.JCheckBox colorCheckBox3;
