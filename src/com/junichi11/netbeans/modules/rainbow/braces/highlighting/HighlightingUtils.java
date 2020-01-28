@@ -38,7 +38,10 @@ public final class HighlightingUtils {
 
     public static AttributeSet[] ATTRIBUTE_SETS;
     private static final List<String> SKIP_DEFAULT_CATEGORIES = Arrays.asList(
-            "character" // NOI18N
+            "character", // NOI18N
+            "whitespace", // NOI18N
+            "identifier", // NOI18N
+            "keyword" // NOI18N
     );
     private static final List<String> SKIP_COMMENT_CATEGORIES = Arrays.asList(
             "commentline", // NOI18N

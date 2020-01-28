@@ -38,6 +38,7 @@ public final class RainbowBracesOptions {
     private static final String COLOR_CODE = "rainbow.braces.color.code.%s"; // NOI18N
     private static final String SKIP_COMMENTS = "rainbow.braces.skip.comments"; // NOI18N
     private static final String SKIP_STRINGS = "rainbow.braces.skip.strings"; // NOI18N
+    private static final String MAX_LINES = "rainbow.braces.max.lines"; // NOI18N
 
     private static final RainbowBracesOptions INSTANCE = new RainbowBracesOptions();
 
@@ -136,6 +137,14 @@ public final class RainbowBracesOptions {
 
     public void setStringSkipped(boolean isSkipped) {
         getPreferences().putBoolean(SKIP_STRINGS, isSkipped);
+    }
+
+    public int getMaxLines() {
+        return getPreferences().getInt(MAX_LINES, 3000);
+    }
+
+    public void setMaxLines(int maxLines) {
+        getPreferences().putInt(MAX_LINES, maxLines);
     }
 
     private Preferences getPreferences() {

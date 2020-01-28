@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -120,6 +121,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         resetColorsBarLabel = new javax.swing.JLabel();
         skipCommentsCheckBox = new javax.swing.JCheckBox();
         skipStringsCheckBox = new javax.swing.JCheckBox();
+        maxNumberOfLinesLabel = new javax.swing.JLabel();
+        maxNumberOfLinesSpinner = new javax.swing.JSpinner();
 
         org.openide.awt.Mnemonics.setLocalizedText(mimeTypesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.mimeTypesLabel.text")); // NOI18N
 
@@ -167,6 +170,11 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(skipCommentsCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.skipCommentsCheckBox.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(skipStringsCheckBox, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.skipStringsCheckBox.text")); // NOI18N
+
+        maxNumberOfLinesLabel.setLabelFor(maxNumberOfLinesSpinner);
+        org.openide.awt.Mnemonics.setLocalizedText(maxNumberOfLinesLabel, org.openide.util.NbBundle.getMessage(RainbowBracesOptionsPanel.class, "RainbowBracesOptionsPanel.maxNumberOfLinesLabel.text")); // NOI18N
+
+        maxNumberOfLinesSpinner.setModel(new javax.swing.SpinnerNumberModel(3000, 0, null, 100));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -219,17 +227,23 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                             .addComponent(colorComboBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(colorComboBox9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(resetColorsLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetColorsBarLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetColorsButton))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(skipCommentsCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(skipStringsCheckBox)))
+                        .addComponent(skipStringsCheckBox))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(maxNumberOfLinesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(maxNumberOfLinesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(resetColorsLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resetColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resetColorsBarLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resetColorsButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -281,6 +295,10 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
                     .addComponent(resetColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(resetColorsLabel)
                     .addComponent(resetColorsBarLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maxNumberOfLinesLabel)
+                    .addComponent(maxNumberOfLinesSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(errorLabel))
         );
@@ -332,6 +350,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             ColorComboBox colorComboBox = colorComboBoxes.get(i);
             colorComboBox.setSelectedColor(Color.decode(options.getColorCode(i + 1)));
         }
+
+        // max number of lines
+        maxNumberOfLinesSpinner.setValue(options.getMaxLines());
     }
 
     void store() {
@@ -355,6 +376,9 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
             Color selectedColor = colorComboBox.getSelectedColor();
             options.setColorCode(i + 1, String.format(HEX_COLOR_FORMAT, selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()));
         }
+
+        // max number of lines
+        options.setMaxLines(((SpinnerNumberModel) maxNumberOfLinesSpinner.getModel()).getNumber().intValue());
     }
 
     private List<JCheckBox> getColorCheckBoxes() {
@@ -435,6 +459,8 @@ public class RainbowBracesOptionsPanel extends javax.swing.JPanel {
     private org.openide.awt.ColorComboBox colorComboBox9;
     private javax.swing.JCheckBox enabledCheckBox;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JLabel maxNumberOfLinesLabel;
+    private javax.swing.JSpinner maxNumberOfLinesSpinner;
     private javax.swing.JLabel mimeTypesLabel;
     private javax.swing.JTextField mimeTypesTextField;
     private javax.swing.JCheckBox parenthesesCheckBox;
