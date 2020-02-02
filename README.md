@@ -2,7 +2,9 @@
 
 Rainbow Parentheses/Brackets/Braces for NetBeans
 
-![netbeans-rainbow-braces](./images/netbeans-rainbow-braces.png)
+![netbeans-rainbow-braces-default1](./images/netbeans-rainbow-braces.png)
+
+![netbeans-rainbow-braces-default3](./images/netbeans-rainbow-braces-with-default3.png)
 
 ### Options
 
