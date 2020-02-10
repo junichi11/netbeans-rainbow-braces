@@ -2,7 +2,9 @@
 
 Rainbow Parentheses/Brackets/Braces for NetBeans
 
-![netbeans-rainbow-braces](./images/netbeans-rainbow-braces.png)
+![netbeans-rainbow-braces-default1](./images/netbeans-rainbow-braces.png)
+
+![netbeans-rainbow-braces-default3](./images/netbeans-rainbow-braces-with-default3.png)
 
 ### Options
 
@@ -19,6 +21,15 @@ If you would like to show colorized braces in comments and strings, please unche
 - Skip comments (Checked by default)
 - Skip strings (Checked by default)
 
+#### Max number of lines
+
+Braces are not colorized if lines of a file greater than this number.
+
+
+#### Check only parentheses/brackets/braces of a visible area (Unchecked by default)
+
+Don't check all braces from the top/end of the file. So, colors may be changed when you scroll the editor. But performance is better.
+
 ![netbeans-rainbow-braces-options](./images/netbeans-rainbow-braces-options.png)
 
 ### Downloads
@@ -28,6 +39,8 @@ If you would like to show colorized braces in comments and strings, please unche
 ### Donation
 
 <a href="https://www.patreon.com/junichi11"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="50"></a>
+
+https://github.com/sponsors/junichi11
 
 ### License
 

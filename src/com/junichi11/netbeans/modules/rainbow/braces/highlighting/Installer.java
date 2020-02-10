@@ -37,6 +37,18 @@ public class Installer extends ModuleInstall {
                 RainbowBracesHighlighting.setMimeTypeRegex();
             }
 
+            if (evt.getKey().equals("rainbow.braces.enabled")) { // NOI18N
+                RainbowBracesHighlighting.setEnabled();
+            }
+
+            if (evt.getKey().equals("rainbow.braces.max.lines")) { // NOI18N
+                RainbowBracesHighlighting.setMaxLines();
+            }
+
+            if (evt.getKey().equals("rainbow.braces.only.visible.area")) { // NOI18N
+                RainbowBracesHighlighting.setOnlyVisibleArea();
+            }
+
             if (evt.getKey().startsWith("rainbow.braces.color.")) { // NOI18N
                 HighlightingUtils.setColors();
             }

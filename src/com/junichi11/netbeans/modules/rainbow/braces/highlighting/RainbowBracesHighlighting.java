@@ -35,12 +35,18 @@ import org.netbeans.spi.editor.highlighting.support.AbstractHighlightsContainer;
 public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
     public static final String LAYER_TYPE_ID = "com.junichi11.modules.rainbow.braces.highlighting.RainbowBracesHighlighting"; // NOI18N
-    private static Pattern MIME_TYPE_PATTERN;
+    private static volatile Pattern MIME_TYPE_PATTERN;
+    private static volatile int MAX_LINES;
+    private static volatile boolean IS_ENABLED;
+    private static volatile boolean IS_ONLY_VISIBLE_AREA;
     private final Document document;
     private final String mimeType;
 
     static {
+        setEnabled();
         setMimeTypeRegex();
+        setMaxLines();
+        setOnlyVisibleArea();
     }
 
     RainbowBracesHighlighting(Document document) {
@@ -48,14 +54,30 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         this.mimeType = DocumentUtilities.getMimeType(document);
     }
 
+    static void setEnabled() {
+        IS_ENABLED = RainbowBracesOptions.getInstance().isEnabled();
+    }
+
+    static void setOnlyVisibleArea() {
+        IS_ONLY_VISIBLE_AREA = RainbowBracesOptions.getInstance().isOnlyVisibleArea();
+    }
+
     static void setMimeTypeRegex() {
         MIME_TYPE_PATTERN = Pattern.compile(RainbowBracesOptions.getInstance().getMimeTypeRegex());
     }
 
+    static void setMaxLines() {
+        MAX_LINES = RainbowBracesOptions.getInstance().getMaxLines();
+    }
+
     @Override
     public HighlightsSequence getHighlights(int startOffset, int endOffset) {
-        if (!RainbowBracesOptions.getInstance().isEnabled()
+        if (!IS_ENABLED
                 || !MIME_TYPE_PATTERN.matcher(mimeType).matches()) {
+            return HighlightsSequence.EMPTY;
+        }
+        int lineNumber = document.getDefaultRootElement().getElementIndex(document.getLength()) + 1;
+        if (lineNumber > MAX_LINES) {
             return HighlightsSequence.EMPTY;
         }
         return BracesHighlightsSequenceFactory.create(startOffset, endOffset, document);
@@ -67,9 +89,12 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         }
 
         public static final HighlightsSequence create(int startOffset, int endOffset, Document document) {
+            if (IS_ONLY_VISIBLE_AREA) {
+                return new HighlightsSequenceForward(startOffset, endOffset, document, true);
+            }
             int endDelta = document.getLength() - endOffset;
             if (startOffset <= endDelta) {
-                return new HighlightsSequenceForward(startOffset, endOffset, document);
+                return new HighlightsSequenceForward(startOffset, endOffset, document, false);
             }
             HighlightsSequenceBackward highlightsSequenceBackward = new HighlightsSequenceBackward(startOffset, endOffset, document);
             highlightsSequenceBackward.parse();
@@ -90,11 +115,11 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
         private int bracketsBalance = 0;
         private BracesState state = BracesState.None;
 
-        private HighlightsSequenceForward(int startOffset, int endOffset, Document document) {
+        private HighlightsSequenceForward(int startOffset, int endOffset, Document document, boolean isOnlyVisibleArea) {
             this.startOffset = startOffset;
             this.endOffset = endOffset;
-            this.highlightsStartOffset = 0;
-            this.highlightsEndOffset = 0;
+            this.highlightsStartOffset = isOnlyVisibleArea ? startOffset : 0;
+            this.highlightsEndOffset =  isOnlyVisibleArea ? startOffset : 0;
             this.documentText = DocumentUtilities.getText(document);
             this.ts = HighlightingUtils.getTokenSequence(document);
         }
@@ -160,7 +185,7 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                 position--;
             }
             if (position < 0) {
-                return HighlightingUtils.ATTRIBUTE_SETS[0];
+                position = Math.abs(position);
             }
             return HighlightingUtils.ATTRIBUTE_SETS[position % HighlightingUtils.ATTRIBUTE_SETS.length];
         }

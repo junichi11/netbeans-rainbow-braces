@@ -38,6 +38,8 @@ public final class RainbowBracesOptions {
     private static final String COLOR_CODE = "rainbow.braces.color.code.%s"; // NOI18N
     private static final String SKIP_COMMENTS = "rainbow.braces.skip.comments"; // NOI18N
     private static final String SKIP_STRINGS = "rainbow.braces.skip.strings"; // NOI18N
+    private static final String MAX_LINES = "rainbow.braces.max.lines"; // NOI18N
+    private static final String ONLY_VISIBLE_AREA = "rainbow.braces.only.visible.area"; // NOI18N
 
     private static final RainbowBracesOptions INSTANCE = new RainbowBracesOptions();
 
@@ -136,6 +138,22 @@ public final class RainbowBracesOptions {
 
     public void setStringSkipped(boolean isSkipped) {
         getPreferences().putBoolean(SKIP_STRINGS, isSkipped);
+    }
+
+    public int getMaxLines() {
+        return getPreferences().getInt(MAX_LINES, 3000);
+    }
+
+    public void setMaxLines(int maxLines) {
+        getPreferences().putInt(MAX_LINES, maxLines);
+    }
+
+    public boolean isOnlyVisibleArea() {
+        return getPreferences().getBoolean(ONLY_VISIBLE_AREA, false);
+    }
+
+    public void setOnlyVisibleArea(boolean isOnlyVisibleArea) {
+        getPreferences().putBoolean(ONLY_VISIBLE_AREA, isOnlyVisibleArea);
     }
 
     private Preferences getPreferences() {
