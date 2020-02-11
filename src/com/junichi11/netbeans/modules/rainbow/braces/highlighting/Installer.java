@@ -52,6 +52,18 @@ public class Installer extends ModuleInstall {
             if (evt.getKey().startsWith("rainbow.braces.color.")) { // NOI18N
                 HighlightingUtils.setColors();
             }
+
+            if (evt.getKey().startsWith("rainbow.braces.braces")) { // NOI18N
+                HighlightingUtils.setBracesEnabled();
+            }
+
+            if (evt.getKey().startsWith("rainbow.braces.brackets")) { // NOI18N
+                HighlightingUtils.setBracketsEnabled();
+            }
+
+            if (evt.getKey().startsWith("rainbow.braces.parentheses")) { // NOI18N
+                HighlightingUtils.setParenthesesEnabled();
+            }
         });
     }
 
