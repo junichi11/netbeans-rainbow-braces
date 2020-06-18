@@ -51,12 +51,30 @@ public final class HighlightingUtils {
             "string" // NOI18N
     );
     private static final int MAX_COLOR_SIZE = 9;
+    private static volatile boolean areBracesEnabled;
+    private static volatile boolean areBracketsEnabled;
+    private static volatile boolean areParenthesesEnabled;
 
     static {
         setColors();
+        setBracesEnabled();
+        setBracketsEnabled();
+        setParenthesesEnabled();
     }
 
     private HighlightingUtils() {
+    }
+
+    static void setBracesEnabled() {
+        areBracesEnabled = RainbowBracesOptions.getInstance().areBracesEnabled();
+    }
+
+    static void setBracketsEnabled() {
+        areBracketsEnabled = RainbowBracesOptions.getInstance().areBracketsEnabled();
+    }
+
+    static void setParenthesesEnabled() {
+        areParenthesesEnabled = RainbowBracesOptions.getInstance().areParenthesesEnabled();
     }
 
     static void setColors() {
@@ -129,13 +147,13 @@ public final class HighlightingUtils {
         switch (state) {
             case ParenthesisOpen: // no break
             case ParenthesisClose:
-                return RainbowBracesOptions.getInstance().areParenthesesEnabled();
+                return areParenthesesEnabled;
             case BracketOpen: // no break
             case BracketClose:
-                return RainbowBracesOptions.getInstance().areBracketsEnabled();
+                return areBracketsEnabled;
             case BraceOpen: // no break
             case BraceClose:
-                return RainbowBracesOptions.getInstance().areBracesEnabled();
+                return areBracesEnabled;
             default:
                 return true;
         }
