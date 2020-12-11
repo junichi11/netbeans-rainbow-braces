@@ -233,6 +233,28 @@ public class RainbowBracesHighlitingTest extends NbTestCase {
     }
 
     @Test
+    public void testHighlightsBackwardSkipJavadoc() throws BadLocationException {
+        // ignore comment
+        String contents = ""
+                + "/**\n" // 4
+                + " * () []. \n" // 11
+                + " */\n" // 4
+                + "package test;\n" // 14
+                + "public class Test {\n" // 20
+                + "    public void test() {\n" // 25
+                + "        new String[]{};\n" // 24
+                + "    }\n" // 6
+                + "}\n";
+        doc.insertString(0, contents, null);
+        HighlightsSequence highlightsSequence = rainbowBracesHighlighting.getHighlights(5, doc.getLength());
+        assertTrue(highlightsSequence instanceof RainbowBracesHighlighting.HighlightsSequenceBackward);
+        assertTrue(highlightsSequence.moveNext());
+        assertTrue(highlightsSequence.moveNext());
+        assertEquals(highlightsSequence.getStartOffset(), 4 + 11 + 4 + 14 + 20 + 20);
+        assertEquals(highlightsSequence.getEndOffset(), 4 + 11 + 4 + 14 + 20 + 21);
+    }
+
+    @Test
     public void testHighlightsSkipString() throws BadLocationException {
         // ignore string
         String contents = ""
