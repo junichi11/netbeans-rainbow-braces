@@ -269,7 +269,11 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
                 // skip string and comment
                 int skipedPosition = skipToken(i);
                 if (skipedPosition != -1) {
-                    i = skipedPosition;
+                    // #11 avoid an infinite loop
+                    // Javadoc /** */ continue to return the same position with "*"
+                    if (skipedPosition < i) {
+                        i = skipedPosition;
+                    }
                     continue;
                 }
                 state = BracesState.valueOfChar(c);

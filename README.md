@@ -36,9 +36,9 @@ Don't check all braces from the top/end of the file. So, colors may be changed w
 
 - https://github.com/junichi11/netbeans-rainbow-braces/releases
 
-### Donation
+## Donation
 
-<a href="https://www.patreon.com/junichi11"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="50"></a>
+<a href="https://github.com/sponsors/junichi11">https://github.com/sponsors/junichi11</a>
 
 https://github.com/sponsors/junichi11
 

@@ -54,12 +54,16 @@ public final class HighlightingUtils {
     private static volatile boolean areBracesEnabled;
     private static volatile boolean areBracketsEnabled;
     private static volatile boolean areParenthesesEnabled;
+    private static volatile boolean skipComments;
+    private static volatile boolean skipString;
 
     static {
         setColors();
         setBracesEnabled();
         setBracketsEnabled();
         setParenthesesEnabled();
+        setSkipComments();
+        setSkipString();
     }
 
     private HighlightingUtils() {
@@ -75,6 +79,14 @@ public final class HighlightingUtils {
 
     static void setParenthesesEnabled() {
         areParenthesesEnabled = RainbowBracesOptions.getInstance().areParenthesesEnabled();
+    }
+
+    static void setSkipComments() {
+        skipComments = RainbowBracesOptions.getInstance().isCommentSkipped();
+    }
+
+    static void setSkipString() {
+        skipString = RainbowBracesOptions.getInstance().isStringSkipped();
     }
 
     static void setColors() {
@@ -134,12 +146,12 @@ public final class HighlightingUtils {
     }
 
     private static boolean isCommentSkipped(String primaryCategory) {
-        return RainbowBracesOptions.getInstance().isCommentSkipped()
+        return skipComments
                 && SKIP_COMMENT_CATEGORIES.contains(primaryCategory);
     }
 
     private static boolean isStringSkipped(String primaryCategory) {
-        return RainbowBracesOptions.getInstance().isStringSkipped()
+        return skipString
                 && SKIP_STRING_CATEGORIES.contains(primaryCategory);
     }
 
