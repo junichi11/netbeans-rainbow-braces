@@ -38,9 +38,7 @@ Don't check all braces from the top/end of the file. So, colors may be changed w
 
 ## Donation
 
-<a href="https://github.com/sponsors/junichi11">https://github.com/sponsors/junichi11</a>
-
-https://github.com/sponsors/junichi11
+- https://github.com/sponsors/junichi11
 
 ### License
 
