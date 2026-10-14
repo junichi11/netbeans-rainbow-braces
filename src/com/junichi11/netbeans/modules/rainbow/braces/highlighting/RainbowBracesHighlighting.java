@@ -17,7 +17,10 @@ package com.junichi11.netbeans.modules.rainbow.braces.highlighting;
 
 import com.junichi11.netbeans.modules.rainbow.braces.options.RainbowBracesOptions;
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Document;
@@ -35,6 +38,11 @@ import org.netbeans.spi.editor.highlighting.support.AbstractHighlightsContainer;
 public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
 
     public static final String LAYER_TYPE_ID = "com.junichi11.modules.rainbow.braces.highlighting.RainbowBracesHighlighting"; // NOI18N
+    public static final String DOCUMENT_DISABLED_KEY = "rainbow.braces.document.disabled"; // NOI18N
+
+    private static final Set<RainbowBracesHighlighting> INSTANCES =
+            Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>()));
+
     private static volatile Pattern MIME_TYPE_PATTERN;
     private static volatile int MAX_LINES;
     private static volatile boolean IS_ENABLED;
@@ -52,6 +60,18 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
     RainbowBracesHighlighting(Document document) {
         this.document = document;
         this.mimeType = DocumentUtilities.getMimeType(document);
+        INSTANCES.add(this);
+    }
+
+    /** Called by the toolbar action after toggling a document's disabled state. */
+    public static void repaintDocument(Document doc) {
+        synchronized (INSTANCES) {
+            for (RainbowBracesHighlighting h : INSTANCES) {
+                if (h.document == doc) {
+                    h.fireHighlightsChange(0, doc.getLength());
+                }
+            }
+        }
     }
 
     static void setEnabled() {
@@ -73,6 +93,7 @@ public class RainbowBracesHighlighting extends AbstractHighlightsContainer {
     @Override
     public HighlightsSequence getHighlights(int startOffset, int endOffset) {
         if (!IS_ENABLED
+                || Boolean.TRUE.equals(document.getProperty(DOCUMENT_DISABLED_KEY))
                 || !MIME_TYPE_PATTERN.matcher(mimeType).matches()) {
             return HighlightsSequence.EMPTY;
         }

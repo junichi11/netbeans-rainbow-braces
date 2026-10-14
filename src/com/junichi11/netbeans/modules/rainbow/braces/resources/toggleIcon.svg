@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 18 16">
+  <!-- [ -->
+  <polyline points="2,1 0.6,1 0.6,15 2,15"
+            fill="none" stroke="#FF5028" stroke-width="1"
+            stroke-linecap="square" stroke-linejoin="miter"/>
+
+  <!-- { -->
+  <path d="M 6,1.5 Q 4.5,1.5 4.5,3.5 L 4.5,6.5 Q 4.5,8 3,8 Q 4.5,8 4.5,9.5 L 4.5,12.5 Q 4.5,14.5 6,14.5"
+        fill="none" stroke="#FFC800" stroke-width="1"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ( -->
+  <path d="M 8,1.5 Q 5.5,8 8,14.5"
+        fill="none" stroke="#3DC850" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- ) -->
+  <path d="M 10,1.5 Q 12.5,8 10,14.5"
+        fill="none" stroke="#3DC850" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- } -->
+  <path d="M 12,1.5 Q 13.5,1.5 13.5,3.5 L 13.5,6.5 Q 13.5,8 15,8 Q 13.5,8 13.5,9.5 L 13.5,12.5 Q 13.5,14.5 12,14.5"
+        fill="none" stroke="#FFC800" stroke-width="1"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ] -->
+  <polyline points="16,1 17.4,1 17.4,15 16,15"
+            fill="none" stroke="#FF5028" stroke-width="1"
+            stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>
